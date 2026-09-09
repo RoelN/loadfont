@@ -2,7 +2,7 @@
 
 A little helper for just-in-time font loading! Load fonts when they _enter the viewport_, or when they _almost enter the viewport_, or _immediately_.
 
-It's tiny, just 749 bytes minified and Brotli zipped!
+It's tiny, just 793 bytes minified and Brotli zipped!
 
 ## Quick Start
 
