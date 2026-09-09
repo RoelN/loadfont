@@ -1,5 +1,5 @@
 /**
- * FontJit v1.1.1
+ * FontJit v1.2.0
  * by Roel Nieskens - pixelambacht.nl
  */
 
@@ -49,8 +49,8 @@ const getElements = (selector) => {
 	return typeof selector === 'string'
 		? document.querySelectorAll(selector)
 		: selector instanceof Element
-		? [selector]
-		: selector
+			? [selector]
+			: selector
 }
 
 /**
@@ -87,7 +87,7 @@ const loadFont = (selector) => {
 			try {
 				descriptors = JSON.parse(descriptorsData)
 			} catch (error) {
-				console.error(error)
+				console.error('FontJit: Invalid JSON', element, error)
 			}
 		}
 
@@ -104,7 +104,13 @@ const loadFont = (selector) => {
 				})
 				.catch((error) => {
 					fontCache.delete(cacheKey)
-					// Throw so the promise fails
+					console.error(
+						'FontJit: Failed to load',
+						name,
+						'from',
+						url,
+						error
+					)
 					throw error
 				})
 			fontCache.set(cacheKey, promise)
@@ -148,7 +154,7 @@ export const fontJit = (selector = '[data-fontjit-url]', options = {}) => {
 		const elementPromise = new Promise((resolve, reject) => {
 			if (!url || !name) {
 				element.setAttribute('data-fontjit-status', LoadingState.ERROR)
-				reject()
+				reject(new Error('FontJit: Missing data attributes'))
 				return
 			}
 
